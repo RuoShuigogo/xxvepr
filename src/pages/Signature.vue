@@ -11,7 +11,7 @@
         </el-button-group>
     </el-row>
     <Source src="/code/Signature.vue"></Source>
-    <Editor doc="/mock/sign.html"  @DocLoaded="onDocLoaded" style="margin: 10px 0;"></Editor>
+    <Editor doc="/mock/sign.html"  @load="onLoad" style="margin: 10px 0;"></Editor>
     
     </template>
     
@@ -20,13 +20,13 @@
     
     let editor = null
     //文档加载完成
-    const onDocLoaded = function(e) {
-         editor =  e.editor
+    const onLoad = function(e) {
+         editor = e.target.contentWindow.editor
     }
     
     //患者签名
     const popSignPanl = function(id) {
-        console.log(editor.$(id))
+
         editor.$(id).trigger('dblclick')
     }
 

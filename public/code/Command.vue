@@ -23,7 +23,7 @@
           </el-button-group>
      </el-row>
      <el-row>
-          <Editor doc="https://www.x-emr.cn/doc/999.html" @afterInit="onAfterInit" style="margin: 10px 0;" mode="design"></Editor>
+          <Editor doc="https://www.x-emr.cn/doc/999.html" @load="onLoad" style="margin: 10px 0;" mode="design"></Editor>
      </el-row>
 </template>
 
@@ -32,9 +32,9 @@ import { ref } from 'vue'
 
 var editor
 
-//初始化事件
-const onAfterInit = (e) => {
-     editor =  e.editor
+//加载编辑器
+const onLoad = (e) => {
+     editor =  e.target.contentWindow.editor
 }
 
 //文档命令I

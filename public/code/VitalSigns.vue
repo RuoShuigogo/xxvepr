@@ -16,7 +16,7 @@
             <el-button plain type="primary" @click="execCommand('print')">打印</el-button>
         </el-button-group>
     </el-row>
-    <Editor @AfterInit="onAfterInit" style="margin: 10px 0;"></Editor>
+    <Editor @load="onLoad" style="margin: 10px 0;"></Editor>
 </template>
     
 <script setup>
@@ -26,8 +26,8 @@
 
     let editor = null
     //初始化后
-    const onAfterInit = function(e) {
-        editor = e.editor
+    const onLoad = function(e) {
+        editor = e.target.contentWindow.editor
     }
 
     //文档命令

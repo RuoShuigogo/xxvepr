@@ -1,7 +1,7 @@
 <template>
      <el-switch v-model="drawer" size="large" active-text="显示绑定数据"/>
      <Source src="/code/BindData.vue"></Source>
-     <Editor id='302' doc="/mock/bind_data.html" @DocLoaded="onDocLoaded" style="margin: 10px 0;"></Editor>
+     <Editor id='302' doc="/mock/bind_data.html" @load="onLoad" style="margin: 10px 0;"></Editor>
      <el-drawer v-model="drawer" title="数据">
           <el-form  @change="bindData()">
                <el-form-item label="姓名">
@@ -38,13 +38,13 @@ const patient = ref({
 const json = ref('')
 const drawer = ref(false)
 
-//文档加载完成
 var editor
 
-const onDocLoaded = (e) => {
-     editor =  e.editor
-     bindData()
+//加载编辑器
+const onLoad = (e) => {
+     editor =  e.target.contentWindow.editor
 }
+
 
 const bindData = () => {
      

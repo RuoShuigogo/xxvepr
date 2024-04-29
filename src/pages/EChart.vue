@@ -7,7 +7,7 @@
     </el-button-group>
   </el-row>
   <Source src="/code/EChart.vue"></Source>
-  <Editor doc="https://www.x-emr.cn/doc/asdf1.html" @DocLoaded="onDocLoaded" style="margin: 10px 0;"></Editor>
+  <Editor doc="https://www.x-emr.cn/doc/asdf1.html" @load="onLoad" style="margin: 10px 0;"></Editor>
 </template>
 
 
@@ -15,10 +15,9 @@
 import * as echarts from 'echarts';
 
 let editor = null
-//文档加载完成
-const onDocLoaded = function (e) {
-  editor = e.editor
-  addCanvasEChart()
+//加载编辑器
+const onLoad = (e) => {
+     editor =  e.target.contentWindow.editor
 }
 
 //添加图表
