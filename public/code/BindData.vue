@@ -7,6 +7,9 @@
           <el-col :span="8">
                <el-card style="margin: 10px;">
                     <el-form  @change="bindData()" label-width="auto">
+                        <el-form-item>
+                            <el-button @click="getBindObject" type="primary" round>获取病历数据</el-button>
+                        </el-form-item>
                          <el-form-item label="姓名">
                               <el-input v-model="patient.pat_name" ></el-input>
                          </el-form-item>
@@ -24,6 +27,10 @@
                          </el-form-item>
                          <el-form-item label="就诊时间">
                              <el-date-picker v-model="patient.visit_time"  type="datetime" value-format="YYYY-MM-DD hh:mm:ss"></el-date-picker>
+                             <el-radio-group v-model="patient.firstcall" style="margin-left: 10px;">
+                                <el-radio value="1">初诊</el-radio>
+                                <el-radio value="2">复诊</el-radio>
+                            </el-radio-group>
                          </el-form-item>
                          <el-form-item label="联系电话">
                              <el-input v-model="patient.pat_phone"></el-input>
@@ -50,7 +57,7 @@
                              <el-input v-model="patient.presc" type="textarea"></el-input>
                          </el-form-item>
                          <el-form-item label=" 建议">
-                             <el-input v-model="patient.diagnosis"></el-input>
+                             <el-input v-model="patient.advice"></el-input>
                          </el-form-item>
                          <el-form-item label=" 医生签字">
                              <el-input v-model="patient.doctor_name"></el-input>
@@ -82,6 +89,11 @@ const onLoad = (e) => {
 //表单数据改变
 const bindData = () => {
      editor.setBindObject(patient.value)
+}
+
+//获取绑定数据
+const getBindObject = () => {
+    patient.value = editor.getBindObject()
 }
 
 </script>
