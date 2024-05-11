@@ -1,56 +1,87 @@
 <template>
-     <el-switch v-model="drawer" size="large" active-text="显示绑定数据"/>
      <Source src="/code/BindData.vue"></Source>
-     <Editor id='302' doc="/mock/bind_data.html" @load="onLoad" style="margin: 10px 0;"></Editor>
-     <el-drawer v-model="drawer" title="数据">
-          <el-form  @change="bindData()">
-               <el-form-item label="姓名">
-                    <el-col :span="12"><el-input v-model="patient.name" ></el-input></el-col>
-               </el-form-item>
-               <el-form-item label="性别">
-                    <el-col :span="6"><el-input v-model="patient.sex"></el-input></el-col>
-               </el-form-item>
-               <el-form-item label="年龄">
-                    <el-col :span="6"><el-input v-model="patient.age"></el-input></el-col>
-                    <el-col :span="6"><el-input v-model="patient.unit"></el-input></el-col>
-               </el-form-item>
-               <el-form-item label="检查号">
-                    <el-col :span="12"><el-input v-model="patient.checkNo"></el-input></el-col>
-               </el-form-item>
-               <el-form-item label="JSON">
-                    <el-input type="textarea" :rows="25" v-model="json" style="font-size: xx-small;"></el-input>
-               </el-form-item>
-          </el-form>
-     </el-drawer>
+     <el-row>
+          <el-col :span="16">
+               <Editor @load="onLoad" style="margin: 10px 0;"></Editor>
+          </el-col>
+          <el-col :span="8">
+               <el-card style="margin: 10px;">
+                    <el-form  @change="bindData()" label-width="auto">
+                         <el-form-item label="姓名">
+                              <el-input v-model="patient.pat_name" ></el-input>
+                         </el-form-item>
+                         <el-form-item label="性别">
+                             <el-input v-model="patient.pat_sex"></el-input>
+                         </el-form-item>
+                         <el-form-item label="年龄">
+                              <el-input v-model="patient.pat_age"></el-input>
+                         </el-form-item>
+                         <el-form-item label="就诊科室">
+                             <el-input v-model="patient.visit_dept"></el-input>
+                         </el-form-item>
+                         <el-form-item label="就诊号">
+                             <el-input v-model="patient.pat_id"></el-input>
+                         </el-form-item>
+                         <el-form-item label="就诊时间">
+                             <el-date-picker v-model="patient.visit_time"  type="datetime" value-format="YYYY-MM-DD hh:mm:ss"></el-date-picker>
+                         </el-form-item>
+                         <el-form-item label="联系电话">
+                             <el-input v-model="patient.pat_phone"></el-input>
+                         </el-form-item>
+                         <el-form-item label=" 家庭住址">
+                             <el-input v-model="patient.pat_address"></el-input>
+                         </el-form-item>
+                         <el-form-item label=" 主诉">
+                             <el-input v-model="patient.pat_appeal"></el-input>
+                         </el-form-item>
+                         <el-form-item label=" 现病史">
+                             <el-input v-model="patient.pat_now_history"></el-input>
+                         </el-form-item>
+                         <el-form-item label=" 既往史">
+                             <el-input v-model="patient.pat_past_history"></el-input>
+                         </el-form-item>
+                         <el-form-item label=" 过敏史">
+                             <el-input v-model="patient.pat_allergy_history"></el-input>
+                         </el-form-item>
+                         <el-form-item label=" 诊断">
+                             <el-input v-model="patient.diagnosis"></el-input>
+                         </el-form-item>
+                         <el-form-item label=" 处方">
+                             <el-input v-model="patient.presc" type="textarea"></el-input>
+                         </el-form-item>
+                         <el-form-item label=" 建议">
+                             <el-input v-model="patient.diagnosis"></el-input>
+                         </el-form-item>
+                         <el-form-item label=" 医生签字">
+                             <el-input v-model="patient.doctor_name"></el-input>
+                         </el-form-item>
+                    </el-form>
+               </el-card>
+          </el-col>
+     </el-row>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-const patient = ref({
-     name:'周杰伦',
-     sex: '男',
-     age: '26',
-     unit: '岁',
-     checkNo: '202304'
-})
-
-const json = ref('')
-const drawer = ref(false)
+const patient = ref({})
 
 var editor
 
 //加载编辑器
 const onLoad = (e) => {
      editor =  e.target.contentWindow.editor
+     //编辑器加载完成后，需要默认文档操作的情况
+     setTimeout(()=>{
+          editor.loadUrl('/mock/bind_data.html').then(()=>{
+               patient.value = editor.getBindObject()
+          })
+     }, 0)
 }
 
-
+//表单数据改变
 const bindData = () => {
-     
      editor.setBindObject(patient.value)
-
-     json.value = JSON.stringify(editor.getBindObject(), null, 8)
 }
 
 </script>
