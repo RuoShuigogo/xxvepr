@@ -7,9 +7,6 @@
           <el-col :span="8">
                <el-card style="margin: 10px;">
                     <el-form  @change="bindData()" label-width="auto">
-                        <el-form-item>
-                            <el-button @click="getBindObject" type="primary" round>获取病历数据</el-button>
-                        </el-form-item>
                          <el-form-item label="姓名">
                               <el-input v-model="patient.pat_name" ></el-input>
                          </el-form-item>
@@ -77,11 +74,17 @@ var editor
 
 //加载编辑器
 const onLoad = (e) => {
+
      editor =  e.target.contentWindow.editor
-     //编辑器加载完成后，需要默认文档操作的情况
+
      setTimeout(()=>{
+          //异步加载文档
           editor.loadUrl('/mock/bind_data.html').then(()=>{
                patient.value = editor.getBindObject()
+          })
+          //文档输入后表单值随着变化
+          editor.document.addEventListener('input', ()=>{
+            patient.value = editor.getBindObject()
           })
      }, 0)
 }
@@ -90,10 +93,4 @@ const onLoad = (e) => {
 const bindData = () => {
      editor.setBindObject(patient.value)
 }
-
-//获取绑定数据
-const getBindObject = () => {
-    patient.value = editor.getBindObject()
-}
-
 </script>
